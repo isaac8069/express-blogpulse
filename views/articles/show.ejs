@@ -7,5 +7,23 @@
 <p><%= article.content %></p>
 
 <hr />
+<h3>Add a new comment</h3>
+<form method="POST" action="/articles/<%= article.id %>/comments">
+  <label for="name">Your Name:</label>
+  <input type="text" name="name">
+  <label for="content">Comment:</label>
+  <input type="text" name="content">
+  <input type="submit">
+</form>
+
+<% if (article.comments && article.comments.length) {%>
+  <% article.comments.forEach(comment => {%>
+    <p>
+      <%= comment.content %>
+      <br>
+      <small>- <%= comment.name %></small>
+    </p>
+  <%})%>
+<%}%>
 
 <a href="/">&larr; Back Home</a>
