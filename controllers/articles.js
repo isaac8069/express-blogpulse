@@ -1,5 +1,6 @@
 let express = require('express')
 let db = require('../models')
+const article = require('../models/article')
 let router = express.Router()
 
 // POST /articles - create a new post
@@ -36,7 +37,7 @@ router.get('/:id', (req, res) => {
   })
   .then((article) => {
     if (!article) throw Error()
-    console.log("this is the article", article)
+    console.log('this is the article\n', article)
     res.render('articles/show', { article: article })
   })
   .catch((error) => {
@@ -45,20 +46,21 @@ router.get('/:id', (req, res) => {
   })
 })
 
-
-// POST --> /articles/:id/comments -> this will add a new comment
-router.post("/:id/comments", (req, res) => {
+//POST ==> /articles/:id:comments --> this willl add a new comment
+//req.body is coming from the form in show.ejs
+//req.params is referring the url
+router.post('/:id/comments', (req,res) => {
   db.comment.create({
     name: req.body.name,
     content: req.body.content,
     articleId: req.params.id
   })
   .then(resPost => {
-    console.log("created comment?????\n", resPost)
+    console.log('created comment\n', resPost)
     res.redirect(`/articles/${req.params.id}`)
   })
   .catch(err => {
-    res.status(404).render("main/404")
+    res.status(404).render('main/404')
   })
 })
 
